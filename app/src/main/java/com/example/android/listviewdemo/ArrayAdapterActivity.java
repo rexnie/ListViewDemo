@@ -18,6 +18,7 @@ public class ArrayAdapterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_array_adapter);
         mNumbers = getResources().getStringArray(R.array.numbers);
+        //mNumbers = new String[] {};
 
         mListView = (ListView) findViewById(R.id.lv_number);
         mListView.setAdapter(new ArrayAdapter<>(this,
@@ -35,5 +36,9 @@ public class ArrayAdapterActivity extends AppCompatActivity {
                 setTitle("你点击了第" + i + "行");
             }
         });
+        //滚动到最后一项
+        mListView.setSelection(mNumbers.length - 1);
+
+        mListView.setEmptyView(findViewById(R.id.empty_view));
     }
 }

@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <!-- android:scrollbars="none"  隐藏滚动条
+         android:divider="@null"    隐藏分隔线
+         android:listSelector="#00000000"  取消点击回馈效果
+
+     -->
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv_number" />
+        android:id="@+id/lv_number"
+
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="10dp"
+        />
+
+    <ImageView
+        android:id="@+id/empty_view"
+        android:src="@drawable/ic_empty"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
 </LinearLayout>
