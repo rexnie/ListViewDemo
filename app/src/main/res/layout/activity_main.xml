@@ -9,11 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_start_activity_array"
+        android:textAllCaps="false"
         android:text="ArrayAdapterDemo"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_start_activity_simple"
+        android:textAllCaps="false"
         android:text="SimpleAdapterDemo"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_start_activity_base"
+        android:textAllCaps="false"
+        android:text="BaseAdapterDemo"/>
+
 </LinearLayout>

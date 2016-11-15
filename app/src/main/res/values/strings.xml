@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ListViewDemo</string>
-    
+
     <string-array name="numbers">
         <item>first</item>
         <item>second</item>

@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".SimpleAdapterActivity">
         </activity>
-
+        <activity android:name=".BaseAdapterActivity">
+        </activity>
     </application>
 
 </manifest>
