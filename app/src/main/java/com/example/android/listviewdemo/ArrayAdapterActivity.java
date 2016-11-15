@@ -17,7 +17,7 @@ public class ArrayAdapterActivity extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.lv_number);
         mListView.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_multiple_choice,
+                android.R.layout.simple_list_item_single_choice,
                 mNumbers));
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
