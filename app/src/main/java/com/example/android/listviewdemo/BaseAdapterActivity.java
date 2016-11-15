@@ -3,7 +3,6 @@ package com.example.android.listviewdemo;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,51 +36,65 @@ public class BaseAdapterActivity extends AppCompatActivity {
             mInflater = LayoutInflater.from(c);
         }
 
+        /* 数据源中item的个数 */
         @Override
         public int getCount() {
             return mNumbers.length;
         }
 
+        /* 获取数据源中第position个item对应的数据 */
         @Override
-        public Object getItem(int position) {
-            return null;
+        public String getItem(int position) {
+            return mNumbers[position];
         }
 
+        /* ListView 中位置position对应到数据源中的位置  */
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
+        /**
+         * 利用ListView会缓存View的特性，避免每次都重新layout View
+         */
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
+                //第一次创建View, 创建layout
                 convertView = mInflater.inflate(R.layout.activity_base_adapter, null);
                 holder = new ViewHolder();
-                /*得到各个控件的对象*/
+
                 holder.itemTitle = (TextView) convertView.findViewById(R.id.tv_item_title);
                 holder.itemText = (TextView) convertView.findViewById(R.id.tv_item_text);
                 holder.itemButton = (Button) convertView.findViewById(R.id.btn_item_click);
-                convertView.setTag(holder);//绑定ViewHolder对象
+
+                convertView.setTag(holder); //绑定ViewHolder对象到这个View
             } else {
+                //此View已经缓存过了，通过tag找到他的布局
                 holder = (ViewHolder) convertView.getTag();
+            }
+
+            if (holder != null) {
+                // 更新View
                 holder.itemTitle.setText("第" + (position + 1) + "行");
-                holder.itemText.setText(mNumbers[position]);
+                holder.itemText.setText(getItem(position));
 
                 holder.itemButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("MyListViewBase", "你点击了按钮" + position);
+                        setTitle("你点击了按钮" + position);
                     }
                 });
             }
+
             return convertView;
         }
     }
 
-    public final class ViewHolder {
-        public TextView itemTitle;
-        public TextView itemText;
-        public Button itemButton;
+    private final class ViewHolder {
+        TextView itemTitle;
+        TextView itemText;
+        Button itemButton;
     }
 }
