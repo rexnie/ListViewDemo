@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".BaseAdapterActivity">
         </activity>
+        <activity android:name=".AutoShowHideLayoutActivity">
+        </activity>
     </application>
 
 </manifest>
