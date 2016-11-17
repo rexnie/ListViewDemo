@@ -1,39 +1,52 @@
 package com.example.android.listviewdemo;
-//http://www.jb51.net/article/79708.htm
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class AutoShowHideLayoutActivity extends Activity {
+import java.util.ArrayList;
+
+public class AutoShowHideLayoutActivity extends AppCompatActivity {
     private static final String TAG = "AutoShowHideActivity";
     private ListView mListView;
     private String[] mNumbers;
     private int mTouchSlop;
     private float mFirstY;
     private float mCurrentY;
-    private boolean mShow;
-    private ObjectAnimator mAnimatorTitle;
-    private ObjectAnimator mAnimatorList;
-    private LinearLayout mToolbar;
+    private boolean mShow = true;
+    private AnimatorSet mAnimatorSet;
+    private Toolbar mToolbar;
+    private FloatingActionButton mActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_auto_show_hide_layout);
         mNumbers = getResources().getStringArray(R.array.numbers);
 
-        mListView = (ListView) findViewById(R.id.lv_number);
+        mActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        mActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        mListView = (ListView) findViewById(R.id.list);
         mListView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_single_choice,
                 mNumbers));
@@ -54,18 +67,20 @@ public class AutoShowHideLayoutActivity extends Activity {
 
         //mToolbar = getActionBar();
 
-        mToolbar = (LinearLayout) findViewById(R.id.id_title);
-        //setActionBar(mToolbar);
-        /*View header = new View(this);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        View header = new View(this);
         header.setLayoutParams(new AbsListView.LayoutParams(
                         AbsListView.LayoutParams.MATCH_PARENT,
-                        mToolbar.getHeight()
+                (int) getResources().getDimension(R.dimen.abc_action_bar_default_height_material)
                 )
         );
-        mListView.addHeaderView(header);*/
-        toolbarAnim(1);
+        mListView.addHeaderView(header);
 
         mListView.setOnTouchListener(mOnTouchListener);
+
+        mShow = true;
+        toolbarAnim(false);
     }
 
     View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
@@ -86,13 +101,13 @@ public class AutoShowHideLayoutActivity extends Activity {
                     }
 
                     if (direction == 1) {
-                        if (mShow) {
-                            toolbarAnim(1);
+                        if (!mShow) {
+                            toolbarAnim(true);
                             mShow = !mShow;
                         }
                     } else if (direction == 0) {
-                        if (!mShow) {
-                            toolbarAnim(0);
+                        if (mShow) {
+                            toolbarAnim(false);
                             mShow = !mShow;
                         }
                     }
@@ -106,28 +121,39 @@ public class AutoShowHideLayoutActivity extends Activity {
         }
     };
 
-    private void toolbarAnim(int flag) {
-        if (mAnimatorTitle != null && mAnimatorTitle.isRunning()) {
-            mAnimatorTitle.cancel();
+    private void toolbarAnim(boolean hide) {
+        if (mAnimatorSet != null && mAnimatorSet.isRunning()) {
+            mAnimatorSet.cancel();
         }
 
-        if (mAnimatorList != null && mAnimatorList.isRunning()) {
-            mAnimatorList.cancel();
+        if (mAnimatorSet == null) {
+            mAnimatorSet = new AnimatorSet();
+            mAnimatorSet.setDuration(300);
         }
+        ObjectAnimator toolbar, list, footer;
 
-        if (flag == 0) {
-            mAnimatorTitle = ObjectAnimator.ofFloat(mToolbar, "TranslationY",
-                    mToolbar.getTranslationY(), 0);
-            mAnimatorList = ObjectAnimator.ofFloat(mListView, "TranslationY",
-                    mListView.getTranslationY(),
-                    22);
-        } else {
-            mAnimatorTitle = ObjectAnimator.ofFloat(mToolbar, "TranslationY",
+        if (hide) {
+            toolbar = ObjectAnimator.ofFloat(mToolbar, "TranslationY",
                     mToolbar.getTranslationY(), -mToolbar.getHeight());
-            mAnimatorList = ObjectAnimator.ofFloat(mListView, "TranslationY",
-                    mListView.getTranslationY(), 0);
+            list = ObjectAnimator.ofFloat(mListView, "TranslationY",
+                    mListView.getTranslationY(),
+                    0f);
+            footer = ObjectAnimator.ofFloat(mActionButton, "TranslationY",
+                    mActionButton.getTranslationY(),
+                    mActionButton.getBottom() + mActionButton.getHeight());
+        } else { //show
+            toolbar = ObjectAnimator.ofFloat(mToolbar, "TranslationY",
+                    mToolbar.getTranslationY(), 0f);
+            list = ObjectAnimator.ofFloat(mListView, "TranslationY",
+                    mListView.getTranslationY(), 0f);
+            footer = ObjectAnimator.ofFloat(mActionButton, "TranslationY",
+                    mActionButton.getTranslationY(), 0);
         }
-        mAnimatorTitle.start();
-        mAnimatorList.start();
+        ArrayList<Animator> animations = new ArrayList<>();
+        animations.add(toolbar);
+        animations.add(list);
+        animations.add(footer);
+        mAnimatorSet.playTogether(animations);
+        mAnimatorSet.start();
     }
 }
