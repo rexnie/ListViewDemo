@@ -29,8 +29,15 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_start_activity_Auto"
+        android:id="@+id/btn_start_activity_auto"
         android:textAllCaps="false"
         android:text="AutoShowHideLayout"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_start_activity_chat"
+        android:textAllCaps="false"
+        android:text="ChatListViewTest"/>
 
 </LinearLayout>

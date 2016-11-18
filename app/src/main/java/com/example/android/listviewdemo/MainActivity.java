@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mStartSimpleButton;
     private Button mStartBaseButton;
     private Button mStartAutoButton;
+    private Button mStartChatButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +22,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mStartArrayButton = (Button) findViewById(R.id.btn_start_activity_array);
         mStartSimpleButton = (Button) findViewById(R.id.btn_start_activity_simple);
         mStartBaseButton = (Button) findViewById(R.id.btn_start_activity_base);
-        mStartAutoButton = (Button) findViewById(R.id.btn_start_activity_Auto);
+        mStartAutoButton = (Button) findViewById(R.id.btn_start_activity_auto);
+        mStartChatButton = (Button) findViewById(R.id.btn_start_activity_chat);
 
         mStartArrayButton.setOnClickListener(this);
         mStartSimpleButton.setOnClickListener(this);
         mStartBaseButton.setOnClickListener(this);
         mStartAutoButton.setOnClickListener(this);
+        mStartChatButton.setOnClickListener(this);
 
     }
 
@@ -41,8 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_start_activity_base:
                 startActivity(new Intent(this, BaseAdapterActivity.class));
                 break;
-            case R.id.btn_start_activity_Auto:
+            case R.id.btn_start_activity_auto:
                 startActivity(new Intent(this, AutoShowHideLayoutActivity.class));
+                break;
+            case R.id.btn_start_activity_chat:
+                startActivity(new Intent(this, ChatListViewTestActivity.class));
                 break;
             default:
                 Log.e(TAG, "onClick: unknown id = " + v.getId());

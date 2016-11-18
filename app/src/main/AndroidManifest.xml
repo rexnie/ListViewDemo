@@ -25,6 +25,8 @@
             android:name=".AutoShowHideLayoutActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".ChatListViewTestActivity">
+        </activity>
     </application>
 
 </manifest>
